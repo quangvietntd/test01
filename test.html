@@ -1,0 +1,125 @@
+<html>
+
+<head>
+   
+	
+</head>
+
+<body>
+    <div>
+        <pre>
+            You're given strings J representing the types of stones that are jewels, and S representing the
+            stones you have. Each character in S is a type of stone you have. You want to know how
+            many of the stones you have are also jewels.
+            The letters in J are guaranteed distinct, and all characters in J and S are letters. Letters are
+            case sensitive, so "a" is considered a different type of stone from "A".
+            Example 1:
+            Input: J = "aA", S = "aAAbbbb"
+            Output: 3
+            Example 2:
+            Input: J = "z", S = "ZZ"
+            Output: 0
+            Note:
+            • S and J will consist of letters and have length at most 50.
+            • The characters in J are distinct.
+        </pre>
+    </div>
+    <div id="app">
+        <table>
+            <tr>
+                <td>
+                    J (*):
+                </td>
+                <td>
+                    <input type="text" :value="textJ" v-model="textJ">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    S (*):
+                </td>
+                <td>
+                    <input type="text" :value="textS" v-model="textS">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                </td>
+                <td>
+                    <button @click="submit(textJ,textS)" >Send</button>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <h3>Result: {{result}}</h3>
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+</body>
+<script language="JavaScript" type="text/javascript" src="vue.min.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            textJ:'',
+            textS:'',
+            result:''
+        },
+        methods: {
+            countCharacter(str, char) {
+                var count = 0;
+                for(var i = 0; i < str.length; i++){
+                  if(str.charAt(i) === char)
+                    count++;
+                }
+               return count;
+            },
+            makeUnique(str) {
+                return String.prototype.concat(...new Set(str))
+            },
+            validate(textJ,textS){
+                if(!textJ){
+                    alert("Please input J!");
+                    return false;
+                }
+                if(!textS){
+                    alert("Please input S!");
+                    return false;
+                }
+                if(textJ && textJ.length>50){
+                    alert("Max length is 50!");
+                    return false;
+                }
+                if(textS && textS.length>50){
+                    alert("Max length is 50!");
+                    return false;
+                }
+                return true;
+            },
+            submit() {
+                let check = this.validate(this.textJ,this.textS);
+                if(!check) {
+                    this.result = '';
+                    return;
+                }
+                this.textJ = this.makeUnique(this.textJ);
+                let count = 0;
+                for(let i=0;i<this.textJ.length;i++){
+                    if(this.textS.includes(this.textJ[i])){
+                        count += this.countCharacter(this.textS,this.textJ[i])
+                    }
+                }
+                this.result = count;
+                
+            },
+        },
+        created() {
+        }
+    })
+</script>
+</html>
